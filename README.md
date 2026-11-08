@@ -1,9 +1,10 @@
 ﻿# Airbnb Listing Price Prediction
 
+> **Daniel Thomas · Track C · `dtc_` project series** — see `PROJECT_STRUCTURE.md` for naming convention
+
 **Author:** Daniel Thomas
 **Cohort:** AnalystLab Africa Week 1
 **Track:** Track C — Machine Learning
-
 An end-to-end ML pipeline predicting Airbnb prices across 10 cities, with per-city models, grouped-split evaluation, SHAP explainability, and a Streamlit app.
 
 ---
