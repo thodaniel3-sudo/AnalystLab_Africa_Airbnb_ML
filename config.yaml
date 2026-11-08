@@ -1,0 +1,104 @@
+# ============================================================
+# AnalystLab Africa - Airbnb Listing Price Prediction
+# Central configuration for the entire project pipeline
+# ============================================================
+# Every script reads from this file. Change values here,
+# and the whole pipeline adapts - no code edits required.
+
+project:
+  name: "Airbnb Listing Price Prediction"
+  author: "Daniel Thomas"
+  cohort: "AnalystLab Africa Week 1"
+  track: "Track C - Machine Learning"
+
+paths:
+  listings_raw:         "data/raw/Listings.csv"
+  reviews_raw:          "data/raw/Reviews.csv"
+  listings_dict_raw:    "data/raw/Listings_data_dictionary(1).csv"
+  reviews_dict_raw:     "data/raw/Reviews_data_dictionary(1).csv"
+
+  listings_clean:       "data/processed/listings_clean.parquet"
+  reviews_summary:      "data/processed/reviews_summary.parquet"
+
+  models_dir:           "models"
+  reports_dir:          "reports"
+  visualizations_dir:   "visualizations"
+
+target:
+  column: "price"
+  strategy: "per_city"
+
+features:
+  # `review_scores_value` was intentionally excluded per the leakage
+  # audit (see reports/dtc_00_leakage_audit.md, decision_log #13).
+  # It encodes guest-perceived value-for-money, a proxy for price.
+  numeric:
+    - accommodates
+    - bedrooms
+    - minimum_nights
+    - maximum_nights
+    - host_total_listings_count
+    - review_scores_rating
+    - review_scores_accuracy
+    - review_scores_cleanliness
+    - review_scores_checkin
+    - review_scores_communication
+    - review_scores_location
+
+  # `city` is listed here for completeness, but it is the per-city
+  # partition key (decision_log #12, #29) — excluded from X at
+  # feature-engineering time.
+  categorical:
+    - room_type
+    - property_type
+    - city
+    - neighbourhood
+    - host_response_time
+    - host_is_superhost
+    - host_identity_verified
+    - instant_bookable
+
+  excluded:
+    - listing_id
+    - host_id
+    - name
+    - host_since
+    - host_location
+    - latitude
+    - longitude
+    - amenities
+    - price
+    - district
+    - host_response_rate
+    - host_acceptance_rate
+    - host_has_profile_pic
+
+split:
+  test_size: 0.20
+  random_state: 42
+  group_by: "host_id"
+
+models:
+  train_list:
+    - "dummy"
+    - "linear_regression"
+    - "random_forest"
+    - "hist_gradient_boosting"
+  random_state: 42
+  cv_folds: 5
+
+evaluation:
+  metrics:
+    - "mae"
+    - "rmse"
+    - "r2"
+  per_city: true
+
+prediction_intervals:
+  enabled: true
+  lower_quantile: 0.10
+  upper_quantile: 0.90
+
+explainability:
+  enabled: true
+  max_samples_for_shap: 2000
