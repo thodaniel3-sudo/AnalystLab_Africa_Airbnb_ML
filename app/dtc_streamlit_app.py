@@ -67,12 +67,122 @@ CURRENCY = {
 
 
 def main() -> None:
-    st.set_page_config(page_title="Airbnb Listing Price Predictor", layout="wide")
-    st.title("🏠 Airbnb Listing Price Predictor")
-    st.caption(
-        "AnalystLab Africa Week 1 · Track C · Daniel Thomas · "
-        "Per-city ML models with grouped-split honest evaluation"
+    st.set_page_config(
+        page_title="Airbnb Listing Price Predictor",
+        layout="wide",
+        initial_sidebar_state="expanded"
     )
+
+    # ---- Custom CSS for professional styling ----
+    st.markdown("""
+    <style>
+    /* Global typography */
+    html, body, [class*="css"] {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* Main container width */
+    .main .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        max-width: 1200px;
+    }
+
+    /* Sidebar refinement */
+    section[data-testid="stSidebar"] {
+        background-color: #f8f9fb;
+        border-right: 1px solid #e5e7eb;
+    }
+    section[data-testid="stSidebar"] .stMarkdown h3 {
+        color: #1f2937;
+        font-size: 0.95rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-top: 1.5rem;
+    }
+
+    /* Primary button */
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.6rem 1.2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+    }
+    .stButton > button[kind="primary"]:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+    }
+
+    /* Metric cards */
+    [data-testid="stMetric"] {
+        background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.2rem 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    [data-testid="stMetricValue"] {
+        font-size: 2rem !important;
+        font-weight: 700 !important;
+        color: #111827 !important;
+    }
+    [data-testid="stMetricLabel"] {
+        font-size: 0.85rem !important;
+        color: #6b7280 !important;
+        font-weight: 500 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
+    /* Section headers */
+    h1 {
+        color: #111827;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+    }
+    h2 {
+        color: #1f2937;
+        font-weight: 700;
+        border-bottom: 2px solid #e5e7eb;
+        padding-bottom: 0.5rem;
+        margin-top: 2rem;
+    }
+
+    /* Info boxes */
+    .stAlert {
+        border-radius: 10px;
+        border-left-width: 4px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # ---- Hero header ----
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        padding: 2rem 2.5rem;
+        border-radius: 16px;
+        margin-bottom: 2rem;
+        color: white;
+        box-shadow: 0 10px 30px rgba(79, 70, 229, 0.25);
+    ">
+        <h1 style="color: white; margin: 0; font-size: 2rem;">
+            🏠 Airbnb Listing Price Predictor
+        </h1>
+        <p style="color: rgba(255,255,255,0.85); margin: 0.5rem 0 0 0; font-size: 1rem;">
+            AnalystLab Africa Week 1 · Track C · Daniel Thomas
+        </p>
+        <p style="color: rgba(255,255,255,0.75); margin: 0.25rem 0 0 0; font-size: 0.9rem;">
+            Per-city ML models with grouped-split honest evaluation
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
 
     df = load_data()
 
@@ -326,8 +436,6 @@ def main() -> None:
         ax.invert_yaxis()
         fig.tight_layout()
 
-
-
         # Save to disk and display via st.image (most reliable path)
         import os
         debug_dir = ROOT / "visualizations"
@@ -361,6 +469,22 @@ def main() -> None:
         "- The model was trained on historical listings from 2008–2021. "
         "Market conditions change; do not treat predictions as current market price."
     )
+
+    # ---- GitHub Footer ----
+    st.markdown("""
+    <div style="
+        text-align: center;
+        padding: 2rem 0 1rem 0;
+        color: #9ca3af;
+        font-size: 0.8rem;
+        border-top: 1px solid #e5e7eb;
+        margin-top: 3rem;
+    ">
+        Built with Python, scikit-learn, SHAP, and Streamlit · 
+        <a href="https://github.com/thodaniel3-sudo/AnalystLab_Africa_Airbnb_ML" 
+           style="color: #4f46e5; text-decoration: none;">View source on GitHub</a>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
